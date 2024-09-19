@@ -9,9 +9,25 @@ const socketHandler = (io) => {
         socket.to(roomId).emit("userJoined", { userId });
       });
   
-      // Handle WebRTC signaling
-      socket.on("signal", (data) => {
-        io.to(data.roomId).emit("signal", data);
+      // Handle WebRTC signaling for one-on-one and group calls
+      socket.on("signal", ({ roomId, signalData, targetUserId }) => {
+        // If targetUserId is provided, send the signal to that specific user (for one-on-one)
+        if (targetUserId) {
+          io.to(targetUserId).emit("signal", signalData);
+        } else {
+          // Broadcast to all users in the room (for group calls)
+          socket.to(roomId).emit("signal", signalData);
+        }
+      });
+  
+      // Handle WebRTC ICE candidate exchange
+      socket.on("iceCandidate", ({ roomId, candidate, targetUserId }) => {
+        // If targetUserId is provided, send the ICE candidate to the specific peer
+        if (targetUserId) {
+          io.to(targetUserId).emit("iceCandidate", candidate);
+        } else {
+          socket.to(roomId).emit("iceCandidate", candidate);
+        }
       });
   
       // Handle user disconnect

@@ -5,6 +5,7 @@ import http from "http";
 import connectDB from "./config/db.js";
 import userRouter from "./routes/userRoutes.js";
 import roomRouter from "./routes/roomRoutes.js";
+import authRouter from "./routes/authRoutes.js"; 
 import { Server } from "socket.io"; 
 import socketHandler from "./sockets/socketHandler.js";
 
@@ -26,6 +27,7 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
+app.use("/api/auth", authRouter);
 app.use("/api/rooms", roomRouter);
 app.use("/api/users", userRouter);
 
