@@ -1,13 +1,13 @@
 import express from "express";
-import { createRoom, joinRoom } from "../controllers/roomController.js";
+import { createRoom, getRooms } from "../controllers/roomController.js";
 
 
-const router = express.Router();
+const roomRouter = express.Router();
 
-router.post('/create', createRoom);
-router.post('/join', joinRoom);
+roomRouter.post('/create', createRoom);
+roomRouter.post('/all', getRooms);
 
-export default router;
+export default roomRouter;
 
 
 
