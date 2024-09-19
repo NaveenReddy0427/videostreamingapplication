@@ -1,13 +1,17 @@
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
-    username: {
+      username: {
         type: String,
         required: true,
       },
-      socketId: {
-        type: String,
-        required: true,
+      room: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Room',
+      },
+      joinedAt: {
+        type: Date,
+        default: Date.now,
       },
 })
 
